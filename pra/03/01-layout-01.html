@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html * {
+        padding: 0;
+        margin: 0;
+      }
+      .layout {
+        margin-top: 20px;
+      }
+      /* 高度已知 */
+      .layout div {
+        min-height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 每种解决方案使用section来分割 -->
+
+    <!-- 
+        方案一：浮动
+        两边div分别左右浮动，中间不用处理，但是中间部分的文字周围间隙不好处理，中间盒子
+        区域的大小是基于父元素的，设置需要基于父级元素设置中间内容的样式（float的元素脱离文档流，
+        不脱离文字流---浮动的块虽然脱离的正常的文档流，但是还会占有正常文档流的文本空间，详情参考
+        pra\03\01-layout-02.html）
+     -->
+    <section class="layout float">
+      <style>
+        .layout.float .left {
+          float: left;
+          width: 300px;
+          background-color: indianred;
+        }
+        .layout.float .right {
+          float: right;
+          width: 300px;
+          background-color: blue;
+        }
+        .layout.float .center {
+          /* 不加左右边距，文字显示没有文字，具体参考pra\03\01-layout-02.html */
+          margin-left: 300px;
+          margin-right: 300px;
+          background-color: yellowgreen;
+        }
+      </style>
+      <article class="left-right-center">
+        <div class="left"></div>
+        <!-- 
+            右边的在中间前面的原因
+                浮动框定位的宗旨是，在其左、上、右外边界不溢出包含块边界的情况下，尽量的
+                靠上、靠左（"float:left"）或靠右（"float:right"）放置，但是不能高于它
+                前面生成的块框、浮动框和行框的顶边，并且不能与其他浮动元素重叠。
+        -->
+        <div class="right"></div>
+        <div class="center">
+          <h1>浮动解决方案</h1>
+          1.这是浮动三栏布局的中间部分 2.这是浮动三栏布局的中间部分
+          <p>增加高度</p>
+          <p>增加高度</p>
+          <p>增加高度</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- 
+        方案二：绝对定位
+        所有div设置position: absolute，两侧div通过设置left、right为0，让其靠两侧并固定宽度渲染显示；
+        中间div通过分别设置left、right为300，让其固定位置
+     -->
+    <section class="layout absolute">
+      <style>
+        .layout.absolute .left-center-right > div {
+          position: absolute;
+        }
+        .layout.absolute .left {
+          left: 0;
+          width: 300px;
+          background-color: indianred;
+        }
+        .layout.absolute .center {
+          left: 300px;
+          right: 300px;
+          background-color: yellowgreen;
+        }
+        .layout.absolute .right {
+          right: 0;
+          width: 300px;
+          background-color: green;
+        }
+      </style>
+      <article class="left-center-right">
+        <div class="left"></div>
+        <div class="center">
+          <h1>绝对定位解决方案</h1>
+          1.这是绝对定位三栏布局的中间部分 2.这是绝对定位三栏布局的中间部分
+          <p>增加高度</p>
+          <p>增加高度</p>
+          <p>增加高度</p>
+        </div>
+        <div class="right"></div>
+      </article>
+    </section>
+
+    <!-- 
+        方案三：flexbox
+        告知外层元素应用flex布局渲染元素，内部元素可设置具体宽度，也可通过设置flex为1设置为自适应效果
+     -->
+    <section class="layout flexbox">
+      <style>
+        .layout.flexbox {
+          margin-top: 140px;
+        }
+        .layout.flexbox .left-center-right {
+          display: flex;
+        }
+        .layout.flexbox .left {
+          width: 300px;
+          background-color: indianred;
+        }
+        .layout.flexbox .center {
+          flex: 1;
+          background-color: yellowgreen;
+        }
+        .layout.flexbox .right {
+          width: 300px;
+          background-color: green;
+        }
+      </style>
+      <article class="left-center-right">
+        <div class="left"></div>
+        <div class="center">
+          <h1>flexbox解决方案</h1>
+          1.这是flexbox三栏布局的中间部分 2.这是flexbox三栏布局的中间部分
+          <p>增加高度</p>
+          <p>增加高度</p>
+          <p>增加高度</p>
+        </div>
+        <div class="right"></div>
+      </article>
+    </section>
+
+    <!-- 
+        方案四：表格布局
+        使模拟表格的包装块宽度同外层元素相同，表格内部单元格设置具体宽度，没设置的默认为剩余宽度
+     -->
+    <section class="layout table">
+      <style>
+        .layout.table .left-center-right {
+          display: table;
+          width: 100%; /* 使包装块宽度同外层元素相同 */
+          height: 100px;
+        }
+        .layout.table .left-center-right > div {
+          display: table-cell;
+        }
+        .layout.table .left {
+          width: 300px;
+          background-color: indianred;
+        }
+        .layout.table .center {
+          /* 不设置宽度，包装块宽度去除设置宽度的单元格 */
+          background-color: yellowgreen;
+        }
+        .layout.table .right {
+          width: 300px;
+          background-color: green;
+        }
+      </style>
+      <article class="left-center-right">
+        <div class="left"></div>
+        <div class="center">
+          <h1>表格布局解决方案</h1>
+          1.这是表格布局三栏布局的中间部分 2.这是表格布局三栏布局的中间部分
+          <p>增加高度</p>
+          <p>增加高度</p>
+          <p>增加高度</p>
+        </div>
+        <div class="right"></div>
+      </article>
+    </section>
+
+    <!-- 
+        方案五：网格布局
+    -->
+    <section class="layout grid">
+      <style>
+        .layout.grid .left-center-right {
+          display: grid;
+          /* 使包装块宽度同外层元素相同 */
+          width: 100%;
+          /* 网格中的行高为100px */
+          grid-template-rows: 100px;
+          /* 网格中的列宽（auto是自适应） */
+          grid-template-columns: 300px auto 300px;
+        }
+        .layout.grid .left {
+          background-color: indianred;
+        }
+        .layout.grid .center {
+          background-color: yellowgreen;
+        }
+        .layout.grid .right {
+          background-color: green;
+        }
+      </style>
+      <article class="left-center-right">
+        <div class="left"></div>
+        <div class="center">
+          <h1>网格布局解决方案</h1>
+          1.这是网格布局三栏布局的中间部分 2.这是网格布局三栏布局的中间部分
+          <p>增加高度</p>
+          <p>增加高度</p>
+          <p>增加高度</p>
+        </div>
+        <div class="right"></div>
+      </article>
+    </section>
+
+    <!-- 除此之外，还有圣杯、双飞翼布局，逐步优化浮动方案 -->
+
+    <!-- 
+        圣杯布局:
+            优化了浮动布局，将center内容的dom放在最前面，有利于 SEO
+    -->
+    <section class="layout cup">
+      <style>
+        .layout.cup .center-left-right {
+          margin-left: 300px;
+          margin-right: 300px;
+        }
+        .layout.cup .center {
+          float: left;
+          width: 100%;
+          background-color: yellowgreen;
+        }
+        .layout.cup .left {
+          float: left;
+          width: 300px;
+          background-color: indianred;
+          margin-left: -100%;
+          /* 基于上述样式的位置开始偏移 */
+          position: relative;
+          left: -300px;
+        }
+        .layout.cup .right {
+          float: left;
+          width: 300px;
+          background-color: green;
+          /* 由于父级元素的左右边界，导致直接与中间区域的右边重合 */
+          margin-left: -300px;
+          /* 基于上述样式的位置开始偏移 */
+          position: relative;
+          right: -300px;
+        }
+      </style>
+      <article class="center-left-right">
+        <!-- 中间内容放在前面有利于 SEO -->
+        <div class="center">
+          <h1>圣杯布局解决方案</h1>
+          1.这是圣杯布局三栏布局的中间部分 2.这是圣杯布局三栏布局的中间部分
+          <p>增加高度</p>
+          <p>增加高度</p>
+          <p>增加高度</p>
+        </div>
+        <div class="left"></div>
+        <div class="right"></div>
+        <div style="clear: both; min-height: 0"></div>
+      </article>
+    </section>
+
+    <!-- 
+        双飞翼布局:
+            优化了圣杯布局，省去了为了让左右div达到理想位置加上的相对定位效果
+            去除相对定位样式，通过在center内部添加子元素实现效果
+    -->
+    <section class="layout wing">
+      <style>
+        .layout.wing .center {
+          float: left;
+          width: 100%;
+          /* background: black; */
+        }
+        .layout.wing .left {
+          float: left;
+          width: 300px;
+          background-color: indianred;
+          margin-left: -100%;
+        }
+        .layout.wing .right {
+          float: left;
+          width: 300px;
+          background-color: green;
+          margin-left: -300px;
+        }
+        .layout.wing .center .inner {
+          margin-right: 300px;
+          margin-left: 300px;
+          background-color: yellowgreen;
+        }
+      </style>
+      <article class="center-left-right">
+        <div class="center">
+          <div class="inner">
+            <h1>双飞翼布局解决方案</h1>
+            1.这是双飞翼布局三栏布局的中间部分
+            2.这是双飞翼布局三栏布局的中间部分
+            <p>增加高度</p>
+            <p>增加高度</p>
+            <p>增加高度</p>
+          </div>
+        </div>
+        <div class="left"></div>
+        <div class="right"></div>
+      </article>
+    </section>
+  </body>
+</html>

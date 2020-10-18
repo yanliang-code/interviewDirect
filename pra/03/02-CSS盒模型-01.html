@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html * {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+        默认垂直方向外边距重叠（父子元素）
+    -->
+    <section>
+      <style>
+        #sec {
+          background: brown;
+          /* 给父级元素加上此样式，相当于开启 BFC，开启块级格式上下文 */
+          overflow: hidden;
+        }
+        .child {
+          height: 100px;
+          margin-top: 10px;
+          background: burlywood;
+        }
+      </style>
+      <article id="sec">
+        <div class="child"></div>
+      </article>
+    </section>
+
+    <!-- 
+        默认垂直方向外边距重叠（兄弟元素）
+        现状：同级元素，第一个元素的下边距与第二个元素的上边距取最大值，进行渲染显示
+        解决方式：在外层增加元素，通过 overflow 让其开启 BFC
+        原理：BFC 这个元素的垂直方向的边距不会发生重叠
+    -->
+    <section id="margin">
+      <style>
+        #margin {
+          background: pink;
+          overflow: hidden;
+        }
+        /* #margin > p { */
+        #margin p {
+          margin: 5px auto 25px;
+          background: red;
+        }
+      </style>
+      <p>1</p>
+      <div style="overflow: hidden"><p>2</p></div>
+      <p>3</p>
+    </section>
+
+    <!-- 
+        默认其他区域会与浮动元素的 box 区域重叠
+        现状：浮动元素left区域，right区域与其重合
+        解决方法：在right区域增加外层元素，通过 overflow 让其开启 BFC
+        原理：BFC 的区域不会与浮动元素的 box 区域重叠
+    -->
+    <section id="layout">
+      <style>
+        #layout {
+          background: red;
+        }
+        #layout .left {
+          float: left;
+          width: 100px;
+          height: 100px;
+          background: greenyellow;
+        }
+        #layout .right {
+          height: 110px;
+          background: gray;
+        }
+      </style>
+      <div class="left"></div>
+      <div style="overflow: hidden"><div class="right"></div></div>
+    </section>
+
+    <!-- 
+        默认计算父级元素的高度时，不计算浮动的子元素
+        现状：父级元素的背景色为红色，父级元素中只有一个子元素，但是此子元素是浮动的，但是父级元素无高度，无背景色显示
+        解决方法：在父级元素通过 overflow 让其开启 BFC（除 overflow 外，还有 float、position、display 可开启 BFC）
+        原理：计算 BFC 高度时，浮动元素也会参与计算
+     -->
+    <section id="float">
+      <style>
+        #float {
+          background: red;
+          /* overflow: auto; */
+          /* float: left; */
+        }
+        #float .float {
+          float: left;
+          font-size: 30px;
+        }
+      </style>
+      <div class="float">我是浮动元素</div>
+    </section>
+  </body>
+</html>

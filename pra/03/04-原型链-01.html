@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 方式1：字面量
+      var o1 = { name: 'o1' };
+      var o11 = new Object({ name: 'o11' });
+      // 方式2：构造函数
+      var M = function (name) {
+        this.name = name;
+      };
+      var o2 = new M('o2');
+      // 方式3：Object.create
+      var p = { name: 'o3' };
+      var o3 = Object.create(p);
+
+      M.prototype.walk = function () {
+        console.log('walk');
+      };
+
+      var new2 = function (fuc) {
+        // 创建一个空对象，对象的隐式原型指向传入的构造函数的显式原型
+        var o = Object.create(fuc.prototype);
+        // 执行指定的构造函数，并将其的this指向o
+        var k = fuc.call(o);
+        // 判断是否有返回值，有返回值(自定义函数要使用自己的返回值)并且为对象类型，直接返回指定构造函数的返回值
+        // 否则使用new函数执行初创建的对象o
+        if (typeof k === 'object') {
+          return k;
+        } else {
+          return o;
+        }
+      };
+    </script>
+  </body>
+</html>

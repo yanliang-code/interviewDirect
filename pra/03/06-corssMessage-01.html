@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn">点击</button>
+    <iframe
+      id="mainIframe"
+      name="mainIframe"
+      src="./06-corssMessage-02.html"
+      frameborder="0"
+      scrolling="auto"
+    ></iframe>
+    <script>
+      window.location.href = window.location.href + '#/ddddd';
+      var btn = document.getElementById('btn');
+      var iframe = document.getElementById('mainIframe');
+      btn.addEventListener(
+        'click',
+        function () {
+          console.log('iframe===', iframe);
+          //  向指定窗口发送消息
+          iframe.contentWindow.postMessage(
+            { name: 'yl' },
+            'http://127.0.0.1:8080/pra/03/06-corssMessage-02.html'
+          );
+        },
+        false
+      );
+      window.addEventListener(
+        'message',
+        function (event) {
+          console.log('child event===', event);
+        },
+        false
+      );
+    </script>
+  </body>
+</html>

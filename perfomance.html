@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>性能优化</title>
+    <!-- 
+        defer不管加载速度，统一在HTML解析完后，按顺序执行    
+    -->
+    <!-- <script src="./defer1.js" charset="utf-8" defer></script>
+    <script src="./defer2.js" charset="utf-8" defer></script> -->
+    <!-- 
+        async 加载完就立刻执行，所以在async1中加上大量其他代码，
+        导致async1加载时间变长，async2先加载完先执行了
+    -->
+    <!-- <script src="./async1.js" charset="utf-8" async></script>
+    <script src="./async2.js" charset="utf-8" async></script> -->
+  </head>
+  <body>
+    <script>
+      // 此种异步任务同defer、async一样，都要等同步任务执行完再考虑是否加载完并执行
+      // 执行顺序与async一致，与加载顺序不一致
+      var script1 = document.createElement('script');
+      script1.src = './defer1.js';
+      var script2 = document.createElement('script');
+      script2.src = './defer2.js';
+      var headDom = document.getElementsByTagName('head')[0];
+      headDom.append(script1);
+      headDom.append(script2);
+    </script>
+    <div class="">
+      test
+      <!-- 
+        嵌入body内的script，算HTML解析的一部分（同步任务），
+        所以defer、async需要这部分的body内嵌的script标签执行完 再考虑执行
+      -->
+      <script type="text/javascript">
+        console.log('write');
+        document.write('<span>write</span>');
+      </script>
+      <script type="text/javascript">
+        for (var i = 0; i < 20000; i++) {
+          // for (var i = 0; i < 200000; i++) {
+          //   if (i % 20000 === 0) {
+          console.log(i);
+          //   }
+        }
+      </script>
+    </div>
+  </body>
+</html>

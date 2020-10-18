@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //   console.log(1);
+      //   setTimeout(function () {
+      //     console.log(2);
+      //   }, 0);
+      //   console.log(3);
+
+      //   console.log('A');
+      //   while (true) {}
+      //   console.log('B');
+
+      // 循环是同步任务，setTimeout会先放入浏览器的time模块中，等到执行指定延时时间到了
+      // 再将其放入异步队列，等待事件循环来调用
+      for (var i = 0; i < 100000; i++) {
+        setTimeout(function () {
+          console.log(i);
+        }, 1000);
+      }
+      //   for (let i = 0; i < 4; i++) {
+      //     setTimeout(() => {
+      //       console.log(i);
+      //     }, 1000);
+      //   }
+    </script>
+  </body>
+</html>

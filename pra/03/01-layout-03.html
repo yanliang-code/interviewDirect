@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .div1 {
+        float: left;
+        width: 100px;
+        height: 100px;
+        background-color: lightpink;
+      }
+      .div2 {
+        margin-left: 100px;
+        background-color: lightgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+        清除浮动，根据原理来划分，分为两类：
+            1.利用clear属性清除浮动
+            2,利用bfc原理包容浮动
+    -->
+    <!-- clear使用不当的例子  -->
+    <div class="div1">这是div1</div>
+    <div class="div2">
+      <div style="float: left">这是一个浮动的标题</div>
+      <div style="clear: both"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+##### 一、题目
+
+- 谈谈你对 CSS 盒模型的认识 ？
+  - 说明基本概念：从内到外说明各部分，标准模型+IE模型
+  - 标准模型和IE模型的区别 ？
+    - 高度和宽度的不同
+  - CSS 默认的模型是什么，如何设置这两种模型 ？
+  - JS 如何设置和获取盒模型对应的宽和高 ？
+    - 实例题（根据盒模型解释边距重叠）
+  - BFC/IFC（边距重叠解决方案）
+- 模型
+  - 标准模型
+    - <img src="D:\video\@@亮工学习资料\L140 - 前端跳槽面试必备技巧 面试官全流程指导（缺缺缺） - 266元\project\b1j6wg\pic\2020-10-08_110450.png" alt="2020-10-08_110450" style="zoom: 67%;" />
+  - IE模型
+    - <img src="D:\video\@@亮工学习资料\L140 - 前端跳槽面试必备技巧 面试官全流程指导（缺缺缺） - 266元\project\b1j6wg\pic\2020-10-08_110511.png" alt="2020-10-08_110511" style="zoom:67%;" />
+- CSS 默认的模型是什么，如何设置这两种模型 ？
+  - 默认的模型是标准模型
+  - 切换盒模型很简单，借助CSS3的 box-sizing 属性
+    - content-box  标准模型（W3C盒子模型）
+    - border-box  IE模型
+- JS 如何设置和获取盒模型对应的宽和高 ？
+  - dom.style.width/height
+    - 局限性：只能获取到内联的宽度属性
+  - dom.currentStyle.width/height
+    - 三种情况的css样式，全部作用后，dom渲染完最终的宽高
+    - 局限性：只有 IE 支持
+  - window.getComputedStyle(dom).width/height
+    - 同currentStyle作用，兼容性更好
+  - dom.getBoundingClientRect().width/height
+    - 经常用于计算dom节点绝对位置（基于视窗的左上角为起点）
+    - 除宽、高外，还是有left、top属性
+- 实例题（根据盒模型解释边距重叠）
+  - 参考 pra\03\02-CSS盒模型-01.html
+- BFC/IFC（边距重叠解决方案）
+  - BFC 
+    - 基本概念：块级格式化上下文
+    - 原理：相当于渲染规则
+      - BFC 这个元素的垂直方向的边距不会发生重叠
+      - BFC 的区域不会与浮动元素的 box 区域重叠
+      - BFC 是个独立的区域，外边与里边的元素互不影响
+      - 计算 BFC 高度时，浮动元素也会参与计算
+    - 如何创建 BFC
+      - float 值不会 none
+      - position 值不是 static 或 relative
+      - display 值为 inline-block, table-cell, table-caption, flex, inline-flex
+      - overflow 不为 visible
+    - BFC 使用场景
+      - 参考 pra\03\02-CSS盒模型-01.html
+  - IFC 内联元素格式化上下文

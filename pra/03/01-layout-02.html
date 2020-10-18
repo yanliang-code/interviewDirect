@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .article {
+        background: pink;
+        width: 400px;
+      }
+      .imgFloat {
+        float: left;
+      }
+      .imgPosition {
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- float的特性之一  文字环绕（https://blog.csdn.net/qq_22855325/article/details/78015502） -->
+    <div class="article">
+      <img
+        class="imgFloat"
+        src="../../pic/2020-10-07_120519.png"
+        width="150"
+        height="100"
+      />
+      <!-- 
+          给图片设置浮动后，图片已经脱离文档流，p标签的区域已经充满父级div的区域，正常文字应该从div区域
+          的最左侧开始渲染显示，但是现在是在img图片右侧开始渲染显示的。也就是说还会影响文字排版，浮动
+          元素脱离文档流，但不脱离文字流。(对于float我们之前已经提出，float只是脱离了文档流的dom空间但是还占据着文字空间)
+       -->
+      <p>
+        文字环绕效果是很明显的，这里要注意一个地方:浮动的块虽然脱离的正常的文档流，但是还会占有正常文档流的文本空间，可以看到上面第二种图，p的区域其实是顶到了img的底下的，因为float让img脱离文档流，但是p上的文字却没有顶过去，也就是说p上的一部分文字空间仍然被img占据着，所以从这里也可以看出float的脱离文档流不是完全脱离。
+      </p>
+    </div>
+
+    <hr />
+
+    <!-- 
+        position: absolute 完全脱离，对比float属性自行了解
+    -->
+    <div class="article">
+      <img
+        class="imgPosition"
+        src="../../pic/2020-10-07_120519.png"
+        width="150"
+        height="100"
+      />
+      <p>
+        在脱离文档流方面，absolut正如它的名字一般，是绝对脱离，设置了该属性的元素，将完全独立在文档流之外，不会对其他的元素产生任何影响，就举上面文字环绕的例子来说，如果把img属性的float换成position：absolue属性的话，那么p元素以及上面的文字都会顶到图片的位置上
+      </p>
+    </div>
+
+    <hr />
+    <!-- 
+        float其他特性
+            1.包裹性，使用float的元素会自动加上一个块级框，也就是可以像块级元素那样设置宽高
+            2.破坏性，主要是指它会使父容器的高度塌陷，也就是父元素在高度计算的时候会忽略浮动的元素
+                clear使用不当的例子 pra\03\01-layout-03.html
+     -->
+  </body>
+</html>
